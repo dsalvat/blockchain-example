@@ -10,8 +10,6 @@ const app = express();
 const blockchain = new Blockchain();
 const p2pService = new P2PService(blockchain);
 
-blockchain.addBlock('express');
-
 app.use(bodyParser.json());
 
 app.get('/blocks', (req, res) => {
@@ -22,6 +20,8 @@ app.post('/mine', (req, res) => {
     const { body: { data } } = req;
     console.log('Data: ' + data);
     const block = blockchain.addBlock(data);
+
+    p2pService.sync();
 
     res.json({
         blocks: blockchain.blocks.length,

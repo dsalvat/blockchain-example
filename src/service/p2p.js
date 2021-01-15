@@ -2,6 +2,7 @@ import WebSocket from 'ws';
 
 const { P2P_PORT = 5000, PEERS  } = process.env;
 const peers = PEERS ? PEERS.split(','): [];
+const MESSAGE = { BLOCKS: 'blocks' }
 
 class P2PService {
 
@@ -23,8 +24,32 @@ class P2PService {
     }
 
     onConnection(socket) {
+        const { blockchain } = this;
         console.log(`[ws:socket] connected`);
         this.sockets.push(socket);
+
+        socket.on('message', (message) => {
+            const { type, value } = JSON.parse(message);
+
+            try{
+                if(type === MESSAGE.BLOCKS) blockchain.replace(value);
+            }catch(error){
+                console.log(`[ws:message] error ${error}`);
+            }
+
+        });
+        socket.send(JSON.stringify({ type: MESSAGE.BLOCKS, value: blockchain.blocks }));
+    }
+
+    sync(){
+        const { blockchain: { blocks }} = this;
+        this.broadcast(MESSAGE.BLOCKS, blocks);
+    }
+
+    broadcast(type, value){
+        console.log(`[ws:broadcast] ${type}...`);
+        const message = JSON.stringify({ type, value });
+        this.sockets.forEach((socket) => socket.send(message));
     }
 }
 
