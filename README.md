@@ -1,5 +1,6 @@
 # Blockchain exampe project
-### This project has been developed following the "Blockchain: Comprende Bitcoin y desarrolla tu Criptomoneda" training course at UDEMY from https://github.com/soyjavi
+
+This project has been developed following the "Blockchain: Comprende Bitcoin y desarrolla tu Criptomoneda" training course at UDEMY from https://github.com/soyjavi
 
 ## How do I start
 
