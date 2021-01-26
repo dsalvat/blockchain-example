@@ -1,19 +1,17 @@
-import adjustDifficulty from "./adjustDifficulty";
+import adjustDifficulty from './adjustDifficulty';
 
 describe('adjustDifficulty()', () => {
-   let block;
+  let block;
 
-   beforeEach(() => {
-       block = { timestamp : Date.now(), difficulty: 3 };
-   });
+  beforeEach(() => {
+    block = { timestamp: Date.now(), difficulty: 3 };
+  });
 
-   it('lowers difficulty for slowly mined blocks', () => {
-       expect(adjustDifficulty(block, block.timestamp + 60000 )).toEqual(block.difficulty - 1);
-   })
+  it('lowers difficulty for slowly mined blocks', () => {
+    expect(adjustDifficulty(block, block.timestamp + 60000)).toEqual(block.difficulty - 1);
+  });
 
-    it('increase difficulty for quick mined blocks', () => {
-       expect(adjustDifficulty(block, block.timestamp + 1000)).toEqual(block.difficulty + 1);
-    });
-
-
+  it('increase difficulty for quick mined blocks', () => {
+    expect(adjustDifficulty(block, block.timestamp + 1000)).toEqual(block.difficulty + 1);
+  });
 });
